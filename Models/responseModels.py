@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from pydantic import BaseModel
 
@@ -6,7 +6,7 @@ class LoginDetails(BaseModel):
     email: str
     password: str
 class UserRoleData(BaseModel):
-    user_id:str
+    user_id:int
     role_name:str
 class UserDetails(LoginDetails):
     full_name:str
@@ -17,7 +17,7 @@ class AddressDetails(BaseModel):
     address_line2: str | None = None
 
 class CategoryDetails(BaseModel):
-    category_id:str
+    category_id:Optional[int] = None
     category_name: str
     category_description: str | None = None
 class ProductDetails(BaseModel):
@@ -26,14 +26,14 @@ class ProductDetails(BaseModel):
     price: float
     stock_quantity: int
     specifications: dict | None = None
-    category_id: str
+    category_id: int
 
 class CartProductDetails(BaseModel):
-    product_id: str
+    product_id: int
     quantity: int
 class PaymentDetails(BaseModel):
     payment_status:str
-    order_id:str
+    order_id:int
 
 
 

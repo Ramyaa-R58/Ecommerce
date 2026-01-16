@@ -2,27 +2,17 @@ from fastapi import FastAPI
 from EndPoints.routes import router_handle
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
-from contextlib import asynccontextmanager
-from Models.dataBaseModels import db
 from DB_ops.database_ops import DataBaseOps
-# app = FastAPI()
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    db.connect()
-    DataBaseOps.create_tables()
-    yield
-    db.close()
-
-
-app = FastAPI(lifespan=lifespan)
+app = FastAPI()
 
 app.include_router(router_handle)
+cursor,conn = DataBaseOps.connect_database()
+DataBaseOps.create_tables(cursor,conn)
 app.add_middleware(
     CORSMiddleware,
     allow_headers=["*"],
     allow_credentials=["*"],
-    allow_origins=["http://localhost:4200"],
+    allow_origins=["*"],
     allow_methods=["*"]
 
 )
